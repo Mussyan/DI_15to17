@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Skeletonize — skimage v0.17.dev0 docs</title>
+    <link rel="stylesheet" href="./thinning_algorithm_by_scikit_files/pygments.css" type="text/css">
+    <link href="./thinning_algorithm_by_scikit_files/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="./thinning_algorithm_by_scikit_files/custom.css" rel="stylesheet" type="text/css">
+    <link href="./thinning_algorithm_by_scikit_files/css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="./thinning_algorithm_by_scikit_files/copybutton.css" type="text/css">
+        <link rel="stylesheet" href="./thinning_algorithm_by_scikit_files/gallery.css" type="text/css">
+    
+    <script type="text/javascript" async="" defer="" src="./thinning_algorithm_by_scikit_files/matomo.js.다운로드"></script><script src="./thinning_algorithm_by_scikit_files/jquery-latest.js.다운로드"></script>
+    <script src="./thinning_algorithm_by_scikit_files/bootstrap.min.js.다운로드"></script>
+    <script src="./thinning_algorithm_by_scikit_files/togglebutton.js.다운로드"></script>
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.17.dev0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="./thinning_algorithm_by_scikit_files/jquery.js.다운로드"></script>
+    <script type="text/javascript" src="./thinning_algorithm_by_scikit_files/underscore.js.다운로드"></script>
+    <script type="text/javascript" src="./thinning_algorithm_by_scikit_files/doctools.js.다운로드"></script>
+    <script type="text/javascript" src="./thinning_algorithm_by_scikit_files/language_data.js.다운로드"></script>
+    <script type="text/javascript" src="./thinning_algorithm_by_scikit_files/clipboard.min.js.다운로드"></script>
+    <script type="text/javascript" src="./thinning_algorithm_by_scikit_files/copybutton.js.다운로드"></script>
+    <script type="text/javascript">var copybuttonSkipText = '>>> ';</script>
+    <script async="async" type="text/javascript" src="./thinning_algorithm_by_scikit_files/latest.js.다운로드"></script>
+        <link rel="index" title="Index" href="https://scikit-image.org/docs/dev/genindex.html">
+        <link rel="search" title="Search" href="https://scikit-image.org/docs/dev/search.html">
+        <link rel="top" title="skimage v0.17.dev0 docs" href="https://scikit-image.org/docs/dev/index.html">
+        <link rel="up" title="General examples" href="https://scikit-image.org/docs/dev/auto_examples/index.html">
+        <link rel="next" title="Edge operators" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_edge_filter.html">
+        <link rel="prev" title="Circular and Elliptical Hough Transforms" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_circular_elliptical_hough_transform.html">
+    
+    <link rel="shortcut icon" href="https://scikit-image.org/docs/dev/_static/favicon.ico">
+<script type="text/javascript" async="" src="./thinning_algorithm_by_scikit_files/MathJax.js.다운로드"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover, .MJXp-munder {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > *, .MJXp-munder > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body class="container"><div id="MathJax_Message" style="display: none;"></div>
+    <a href="https://scikit-image.org/" class="logo"><img src="./thinning_algorithm_by_scikit_files/logo.png" alt=""></a>
+    <div class="clearfix"></div>
+    <div class="navbar">
+        <div class="navbar-inner">
+            <ul class="nav">
+                <li><a href="https://scikit-image.org/docs/stable/install.html">Download</a></li>
+<li><a href="https://scikit-image.org/docs/dev/auto_examples/index.html">Gallery</a></li>
+<li><a href="https://scikit-image.org/docs/dev/index.html">Documentation</a></li>
+<li><a href="https://scikit-image.org/community_guidelines.html">Community Guidelines</a></li>
+
+<li><a href="https://github.com/scikit-image/scikit-image">
+    <img src="./thinning_algorithm_by_scikit_files/GitHub-Mark-32px.png" style="height: 15px; width: 15px;
+               display: inline; float: none;
+               padding-bottom: 3px;">
+    Source</a>
+</li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span3"><div style="padding-bottom: 3em">
+  <form class="navbar-form pull-right" action="https://scikit-image.org/docs/dev/search.html" method="get">
+    <input type="text" class="search span3" name="q" placeholder="Search documentation ...">
+    <input type="hidden" name="check_keywords" value="yes">
+    <input type="hidden" name="area" value="default">
+  </form>
+</div><!-- 
+
+
+ --><div class="well">
+    <strong>Docs for 0.17.dev0<br></strong>
+
+    <a id="other">All versions</a>
+
+    <ul id="versionList" style="display: none;">
+        <script src="./thinning_algorithm_by_scikit_files/docversions.js.다운로드"></script>
+        <script type="text/javascript">
+            insert_version_links();
+        </script><li><a href="https://scikit-image.org/docs/dev">skimage dev</a> </li>
+<li><a href="https://scikit-image.org/docs/0.16.x">skimage 0.16.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.15.x">skimage 0.15.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.14.x">skimage 0.14.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.13.x">skimage 0.13.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.12.x">skimage 0.12.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.11.x">skimage 0.11.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.10.x">skimage 0.10.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.9.x">skimage 0.9.x</a> </li>
+<li><a href="https://scikit-image.org/docs/0.8.0">skimage 0.8.0</a> </li>
+<li><a href="https://scikit-image.org/docs/0.7.0">skimage 0.7.0</a> </li>
+<li><a href="https://scikit-image.org/docs/0.6">skimage 0.6</a> </li>
+<li><a href="https://scikit-image.org/docs/0.5">skimage 0.5</a> </li>
+<li><a href="https://scikit-image.org/docs/0.4">skimage 0.4</a> </li>
+<li><a href="https://scikit-image.org/docs/0.3">skimage 0.3</a> </li>
+
+    </ul>
+
+ </div>
+
+<script type="text/javascript">
+	$("#other").click(function() {
+		$("#versionList").toggle();
+	});
+</script>
+        </div>
+        <div class="span9" role="main">
+            
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#sphx-glr-download-auto-examples-edges-plot-skeleton-py"><span class="std std-ref">here</span></a> to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="skeletonize">
+<span id="sphx-glr-auto-examples-edges-plot-skeleton-py"></span><h1>Skeletonize<a class="headerlink" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#skeletonize" title="Permalink to this headline">¶</a></h1>
+<p>Skeletonization reduces binary objects to 1 pixel wide representations. This
+can be useful for feature extraction, and/or representing an object’s topology.</p>
+<p><code class="docutils literal notranslate"><span class="pre">skeletonize</span></code> works by making successive passes of the image. On each pass,
+border pixels are identified and removed on the condition that they do not
+break the connectivity of the corresponding object.</p>
+<div class="highlight-default notranslate" style="position: relative;"><div class="highlight"><pre id="codecell0"><span></span><span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a>
+<span class="kn">from</span> <span class="nn">skimage</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">skimage.util</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.util.html#skimage.util.invert" title="View documentation for skimage.util.invert"><span class="n">invert</span></a>
+
+<span class="c1"># Invert the horse image</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.util.html#skimage.util.invert" title="View documentation for skimage.util.invert"><span class="n">invert</span></a><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#skimage.data.horse" title="View documentation for skimage.data.horse"><span class="n">data</span><span class="o">.</span><span class="n">horse</span></a><span class="p">())</span>
+
+<span class="c1"># perform skeletonization</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a><span class="p">)</span>
+
+<span class="c1"># display results</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="View documentation for matplotlib.figure.Figure"><span class="n">fig</span></a><span class="p">,</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">axes</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+                         <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ravel.html#numpy.ndarray.ravel" title="View documentation for numpy.ndarray.ravel"><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">()</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'original'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'skeleton'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.tight_layout" title="View documentation for matplotlib.figure.Figure.tight_layout"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre><a class="copybtn o-tooltip--left" style="background-color: rgb(245, 245, 245)" data-tooltip="Copy" data-clipboard-target="#codecell0">
+      <img src="./thinning_algorithm_by_scikit_files/copy-button.svg" alt="Copy to clipboard">
+    </a></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_skeleton_001.png" class="sphx-glr-single-img" src="./thinning_algorithm_by_scikit_files/sphx_glr_plot_skeleton_001.png">
+<p><strong>Zhang’s method vs Lee’s method</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">skeletonize</span></code> <a class="reference internal" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#zha84" id="id1"><span>[Zha84]</span></a> works by making successive passes of
+the image, removing pixels on object borders. This continues until no
+more pixels can be removed.  The image is correlated with a
+mask that assigns each pixel a number in the range [0…255]
+corresponding to each possible pattern of its 8 neighbouring
+pixels. A look up table is then used to assign the pixels a
+value of 0, 1, 2 or 3, which are selectively removed during
+the iterations.</p>
+<p><code class="docutils literal notranslate"><span class="pre">skeletonize(...,</span> <span class="pre">method='lee')</span></code> <a class="reference internal" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#lee94" id="id2"><span>[Lee94]</span></a> uses an octree data structure
+to examine a 3x3x3 neighborhood of a pixel. The algorithm proceeds by
+iteratively sweeping over the image, and removing pixels at each iteration
+until the image stops changing. Each iteration consists of two steps: first,
+a list of candidates for removal is assembled; then pixels from this list
+are rechecked sequentially, to better preserve connectivity of the image.</p>
+<p>Note that Lee’s method <a class="reference internal" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#lee94" id="id3"><span>[Lee94]</span></a> is designed to be used on 3-D images, and
+is selected automatically for those. For illustrative purposes, we apply
+this algorithm to a 2-D image.</p>
+<dl class="citation">
+<dt class="label" id="zha84"><span class="brackets"><a class="fn-backref" href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#id1">Zha84</a></span></dt>
+<dd><p>A fast parallel algorithm for thinning digital patterns,
+T. Y. Zhang and C. Y. Suen, Communications of the ACM,
+March 1984, Volume 27, Number 3.</p>
+</dd>
+<dt class="label" id="lee94"><span class="brackets">Lee94</span><span class="fn-backref">(<a href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#id2">1</a>,<a href="https://scikit-image.org/docs/dev/auto_examples/edges/plot_skeleton.html#id3">2</a>)</span></dt>
+<dd><p>T.-C. Lee, R.L. Kashyap and C.-N. Chu, Building skeleton models
+via 3-D medial surface/axis thinning algorithms.
+Computer Vision, Graphics, and Image Processing, 56(6):462-478,
+1994.</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate" style="position: relative;"><div class="highlight"><pre id="codecell1"><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a>
+<span class="kn">from</span> <span class="nn">skimage.data</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.data.html#skimage.data.binary_blobs" title="View documentation for skimage.data.binary_blobs"><span class="n">binary_blobs</span></a>
+
+
+<a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.data.html#skimage.data.binary_blobs" title="View documentation for skimage.data.binary_blobs"><span class="n">binary_blobs</span></a><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">blob_size_fraction</span><span class="o">=.</span><span class="mi">2</span><span class="p">,</span> <span class="n">volume_fraction</span><span class="o">=.</span><span class="mi">35</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton_lee</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'lee'</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="View documentation for matplotlib.figure.Figure"><span class="n">fig</span></a><span class="p">,</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">axes</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ravel.html#numpy.ndarray.ravel" title="View documentation for numpy.ndarray.ravel"><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">()</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'original'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'skeletonize'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton_lee</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'skeletonize (Lee 94)'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.tight_layout" title="View documentation for matplotlib.figure.Figure.tight_layout"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre><a class="copybtn o-tooltip--left" style="background-color: rgb(245, 245, 245)" data-tooltip="Copy" data-clipboard-target="#codecell1">
+      <img src="./thinning_algorithm_by_scikit_files/copy-button.svg" alt="Copy to clipboard">
+    </a></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_skeleton_002.png" class="sphx-glr-single-img" src="./thinning_algorithm_by_scikit_files/sphx_glr_plot_skeleton_002.png">
+<p><strong>Medial axis skeletonization</strong></p>
+<p>The medial axis of an object is the set of all points having more than one
+closest point on the object’s boundary. It is often called the <em>topological
+skeleton</em>, because it is a 1-pixel wide skeleton of the object, with the same
+connectivity as the original object.</p>
+<p>Here, we use the medial axis transform to compute the width of the foreground
+objects. As the function <code class="docutils literal notranslate"><span class="pre">medial_axis</span></code> returns the distance transform in
+addition to the medial axis (with the keyword argument <code class="docutils literal notranslate"><span class="pre">return_distance=True</span></code>),
+it is possible to compute the distance to the background for all points of
+the medial axis with this function. This gives an estimate of the local width
+of the objects.</p>
+<p>For a skeleton with fewer branches, <code class="docutils literal notranslate"><span class="pre">skeletonize</span></code> should be preferred.</p>
+<div class="highlight-default notranslate" style="position: relative;"><div class="highlight"><pre id="codecell2"><span></span><span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.medial_axis" title="View documentation for skimage.morphology.medial_axis"><span class="n">medial_axis</span></a><span class="p">,</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a>
+
+<span class="c1"># Generate the data</span>
+<a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.data.html#skimage.data.binary_blobs" title="View documentation for skimage.data.binary_blobs"><span class="n">binary_blobs</span></a><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="n">blob_size_fraction</span><span class="o">=.</span><span class="mi">2</span><span class="p">,</span> <span class="n">volume_fraction</span><span class="o">=.</span><span class="mi">35</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Compute the medial axis (skeleton) and the distance transform</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skel</span></a><span class="p">,</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">distance</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.medial_axis" title="View documentation for skimage.morphology.medial_axis"><span class="n">medial_axis</span></a><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">,</span> <span class="n">return_distance</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Compare with other skeletonization algorithms</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton_lee</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">'lee'</span><span class="p">)</span>
+
+<span class="c1"># Distance to the background for pixels of the skeleton</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">dist_on_skel</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">distance</span></a> <span class="o">*</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skel</span></a>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="View documentation for matplotlib.figure.Figure"><span class="n">fig</span></a><span class="p">,</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">axes</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ravel.html#numpy.ndarray.ravel" title="View documentation for numpy.ndarray.ravel"><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">()</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'original'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">dist_on_skel</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'magma'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><a href="https://scikit-image.org/docs/dev/api/skimage.data.html#module-skimage.data" title="View documentation for skimage.data"><span class="n">data</span></a><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="n">colors</span><span class="o">=</span><span class="s1">'w'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'medial_axis'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'skeletonize'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton_lee</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"skeletonize (Lee 94)"</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.tight_layout" title="View documentation for matplotlib.figure.Figure.tight_layout"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre><a class="copybtn o-tooltip--left" style="background-color: rgb(245, 245, 245)" data-tooltip="Copy" data-clipboard-target="#codecell2">
+      <img src="./thinning_algorithm_by_scikit_files/copy-button.svg" alt="Copy to clipboard">
+    </a></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_skeleton_003.png" class="sphx-glr-single-img" src="./thinning_algorithm_by_scikit_files/sphx_glr_plot_skeleton_003.png">
+<p><strong>Morphological thinning</strong></p>
+<p>Morphological thinning, implemented in the <em class="xref py py-obj">thin</em> function, works on the
+same principle as <em class="xref py py-obj">skeletonize</em>: remove pixels from the borders at each
+iteration until none can be removed without altering the connectivity. The
+different rules of removal can speed up skeletonization and result in
+different final skeletons.</p>
+<p>The <em class="xref py py-obj">thin</em> function also takes an optional <em class="xref py py-obj">max_iter</em> keyword argument to
+limit the number of thinning iterations, and thus produce a relatively
+thicker skeleton.</p>
+<div class="highlight-default notranslate" style="position: relative;"><div class="highlight"><pre id="codecell3"><span></span><span class="kn">from</span> <span class="nn">skimage.morphology</span> <span class="kn">import</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">,</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.thin" title="View documentation for skimage.morphology.thin"><span class="n">thin</span></a>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.skeletonize" title="View documentation for skimage.morphology.skeletonize"><span class="n">skeletonize</span></a><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">thinned</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.thin" title="View documentation for skimage.morphology.thin"><span class="n">thin</span></a><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">thinned_partial</span></a> <span class="o">=</span> <a href="https://scikit-image.org/docs/dev/api/skimage.morphology.html#skimage.morphology.thin" title="View documentation for skimage.morphology.thin"><span class="n">thin</span></a><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure" title="View documentation for matplotlib.figure.Figure"><span class="n">fig</span></a><span class="p">,</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">axes</span></a> <span class="o">=</span> <a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.subplots.html#matplotlib.pyplot.subplots" title="View documentation for matplotlib.pyplot.subplots"><span class="n">plt</span><span class="o">.</span><span class="n">subplots</span></a><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a> <span class="o">=</span> <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ravel.html#numpy.ndarray.ravel" title="View documentation for numpy.ndarray.ravel"><span class="n">axes</span><span class="o">.</span><span class="n">ravel</span></a><span class="p">()</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">image</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'original'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">skeleton</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'skeleton'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">thinned</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'thinned'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">thinned_partial</span></a><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">gray</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">'partially thinned'</span><span class="p">)</span>
+<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.html#numpy.ndarray" title="View documentation for numpy.ndarray"><span class="n">ax</span></a><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">'off'</span><span class="p">)</span>
+
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.figure.Figure.html#matplotlib.figure.Figure.tight_layout" title="View documentation for matplotlib.figure.Figure.tight_layout"><span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span></a><span class="p">()</span>
+<a href="https://matplotlib.org/api/_as_gen/matplotlib.pyplot.show.html#matplotlib.pyplot.show" title="View documentation for matplotlib.pyplot.show"><span class="n">plt</span><span class="o">.</span><span class="n">show</span></a><span class="p">()</span>
+</pre><a class="copybtn o-tooltip--left" style="background-color: rgb(245, 245, 245)" data-tooltip="Copy" data-clipboard-target="#codecell3">
+      <img src="./thinning_algorithm_by_scikit_files/copy-button.svg" alt="Copy to clipboard">
+    </a></div>
+</div>
+<img alt="../../_images/sphx_glr_plot_skeleton_004.png" class="sphx-glr-single-img" src="./thinning_algorithm_by_scikit_files/sphx_glr_plot_skeleton_004.png">
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.393 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-edges-plot-skeleton-py">
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="https://scikit-image.org/docs/dev/_downloads/acc64afc58dd7a1f46c04f30a38229d9/plot_skeleton.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_skeleton.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download docutils container">
+<p><a class="reference download internal" download="" href="https://scikit-image.org/docs/dev/_downloads/2763f34da4b712ae70cd9a352f2399ea/plot_skeleton.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_skeleton.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io/">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+
+
+        </div>
+    </div>
+    <div class="well footer" role="contentinfo">
+        <small>
+            © Copyright the scikit-image development team.
+            Created using <a href="https://getbootstrap.com/">Bootstrap</a> and <a href="https://www.sphinx-doc.org/">Sphinx</a>.
+        </small>
+    </div>
+
+
+
+
+<!-- Matomo -->
+<script type="text/javascript">
+  var _paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+  _paq.push(["setCookieDomain", "*.scikit-image.org"]);
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="https://scikit-image.matomo.cloud/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '1']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src='//cdn.matomo.cloud/scikit-image.matomo.cloud/matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<!-- End Matomo Code --></body></html>
