@@ -6,10 +6,10 @@ from PIL import Image
 img_rows, img_cols = 28,28
 
 #source path
-path1 = 'C:/Users/gang3/Documents/My Study Data/DI Project/2020.10 new labeled image/'    
+path1 = 'Source path of png images'    
 
 #dst path
-path2 =  'C:/Users/gang3/Documents/My Study Data/DI Project/2020.10 new labeled resized image/'  
+path2 =  'Dst path of 28x28 bmp images'  
 
 listing = os.listdir(path1)
 
