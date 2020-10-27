@@ -1,0 +1,29 @@
+import numpy
+import cv2
+import os
+from PIL import Image
+
+img_rows, img_cols = 28,28
+
+#source path
+path1 = 'C:/Users/gang3/Documents/My Study Data/DI Project/2020.10 new labeled image/'    
+
+#dst path
+path2 =  'C:/Users/gang3/Documents/My Study Data/DI Project/2020.10 new labeled resized image/'  
+
+listing = os.listdir(path1)
+
+print('데이터 resize 전처리 시작~')  
+
+for file in listing:
+    im = Image.open(path1 + '/' + file)  
+    print(file)
+    img = im.resize((img_rows,img_cols))#resize 28x28
+    if file.endswith(".PNG"):
+        filename=file[:-4]
+        filename=filename+".bmp"#rename new file
+              
+    img.save(path2 +'/' +filename)#save bmp file to dst path
+    
+    
+print('이미지 resize 작업 완료')
